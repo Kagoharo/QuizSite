@@ -1,9 +1,13 @@
 from django.views.generic import DetailView
 from django.views.generic.list import ListView
-from .models import *
+from .models import Quiz, Category, Question
 
 
 class QuizListView(ListView):
+    """
+    Вид списка опросов.
+    """
+
     model = Quiz
     template_name = 'quiz_list.html'
     context_object_name = 'quizzes'
@@ -11,6 +15,10 @@ class QuizListView(ListView):
 
 
 class CategoryListView(ListView):
+    """
+    Вид списка категорий.
+    """
+
     model = Category
     template_name = 'category_list.html'
     context_object_name = 'categories'
@@ -18,6 +26,10 @@ class CategoryListView(ListView):
 
 
 class ShowQuiz(DetailView):
+    """
+    Детальный вид опроса.
+    """
+
     model = Question
     template_name = 'question_list.html'
     context_object_name = 'questions'
