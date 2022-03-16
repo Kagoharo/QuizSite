@@ -10,7 +10,7 @@
         </div>
         <div>
             {% for category in categories %}
-                    <a href="{% url 'question_list' category.id %}"><p>{{category}}</p></a>
+                <a href="{% url 'question_list' category.id %}">{{category}}</a>
             {% endfor %}
         </div>
     </body>

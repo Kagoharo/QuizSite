@@ -3,7 +3,7 @@ from django.db import models
 
 class AbstractQuizPattern(models.Model):
     """
-    Общий шаблон для всех моделей.
+    Общий шаблон для всех моделей в models.py.
     """
 
     created_at = models.DateField(verbose_name='Дата создания', auto_now_add=True)
@@ -32,7 +32,6 @@ class Quiz(AbstractQuizPattern):
         """
         Получение вопросов связанных с опросом.
         """
-
         return self.quiz_questions.all()
 
 
@@ -43,7 +42,7 @@ class Category(AbstractQuizPattern):
     """
 
     category_name = models.CharField(verbose_name='Название категории', max_length=150)
-    quiz = models.ForeignKey(Quiz, related_name='quiz_categories', on_delete=models.CASCADE)
+    quiz = models.ForeignKey(Quiz, verbose_name='ID опроса', related_name='quiz_categories', on_delete=models.CASCADE)
 
     class Meta(AbstractQuizPattern.Meta):
         verbose_name = 'Категория'
@@ -58,8 +57,8 @@ class Question(AbstractQuizPattern):
     Модель вопросов.
     """
 
-    quiz = models.ForeignKey(Quiz, related_name='quiz_questions', on_delete=models.CASCADE)
-    category = models.ForeignKey(Category, related_name='categories', on_delete=models.CASCADE)
+    quiz = models.ForeignKey(Quiz, verbose_name='ID опроса', related_name='quiz_questions', on_delete=models.CASCADE)
+    category = models.ForeignKey(Category, verbose_name='ID категории', related_name='categories', on_delete=models.CASCADE)
     question = models.CharField(verbose_name='Вопрос', max_length=150)
     marks = models.IntegerField(verbose_name='Отметка', default=5)
 
@@ -72,9 +71,8 @@ class Question(AbstractQuizPattern):
 
     def get_answers(self):
         """
-        Получение ответов связанных с вопросом.
+        Получение вопросв связанных с опросом.
         """
-
         return self.question_answers.all()
 
 
@@ -83,7 +81,7 @@ class Answer(AbstractQuizPattern):
     Модель ответов.
     """
 
-    question = models.ForeignKey(Question, related_name='question_answers', on_delete=models.CASCADE)
+    question = models.ForeignKey(Question, verbose_name='ID вопроса', related_name='question_answers', on_delete=models.CASCADE)
     answer = models.CharField(verbose_name='Ответ', max_length=150)
     is_correct = models.BooleanField(verbose_name='Правильность', default=False)
 
