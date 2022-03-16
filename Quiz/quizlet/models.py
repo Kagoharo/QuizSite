@@ -28,9 +28,9 @@ class Quiz(AbstractQuizPattern):
     def __str__(self) -> str:
         return self.quiz_name
 
-    def get_answers(self):
+    def get_questions(self):
         """
-        Получение ответов связанных с вопросом.
+        Получение вопросов связанных с опросом.
         """
 
         return self.quiz_questions.all()
