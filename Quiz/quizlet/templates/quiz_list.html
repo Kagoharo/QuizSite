@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<html>
+    <head>
+        <title>Quizzes</title>
+    </head>
+    <body>
+        <div>
+            <h1>Выбери тест</h1>
+        </div>
+        <div>
+            {% for quiz in quizzes %}
+                <a href="{% url 'category_list' quiz.id %}"><p>{{quiz}}</p></a>
+            {% endfor %}
+        </div>
+    </body>
+</html>
