@@ -10,7 +10,7 @@ class AdminQuiz(admin.ModelAdmin):
     list_display = ('id', 'quiz_name', 'created_at')
     list_display_links = ('id', 'quiz_name')
     search_fields = ('quiz_name',)
-    list_filter = ('id', 'quiz_name', 'created_at')
+    list_filter = ('created_at', )
 
 
 class AdminCategory(admin.ModelAdmin):
@@ -21,7 +21,7 @@ class AdminCategory(admin.ModelAdmin):
     list_display = ('id', 'category_name', 'quiz_id', 'created_at')
     list_display_links = ('id', 'category_name')
     search_fields = ('category_name', 'quiz_id')
-    list_filter = ('id', 'category_name', 'quiz_id', 'created_at')
+    list_filter = ('quiz_id', 'created_at')
 
 
 class AdminQuestion(admin.ModelAdmin):
@@ -31,8 +31,8 @@ class AdminQuestion(admin.ModelAdmin):
 
     list_display = ('id', 'question', 'quiz_id', 'category_id', 'created_at')
     list_display_links = ('id', 'question')
-    search_fields = ('id', 'question', 'quiz_id', 'category_id')
-    list_filter = ('id', 'question', 'quiz_id', 'category_id', 'created_at')
+    search_fields = ('quiz_id', 'category_id')
+    list_filter = ('quiz_id', 'category_id', 'created_at')
 
 
 class AdminAnswer(admin.ModelAdmin):
@@ -42,8 +42,8 @@ class AdminAnswer(admin.ModelAdmin):
 
     list_display = ('id', 'answer', 'is_correct', 'question_id', 'created_at')
     list_display_links = ('id', 'answer')
-    search_fields = ('answer', 'is_correct', 'question_id')
-    list_filter = ('id', 'answer', 'is_correct', 'question_id', 'created_at')
+    search_fields = ('answer', 'question_id')
+    list_filter = ('is_correct', 'question_id', 'created_at')
 
 
 admin.site.register(Quiz, AdminQuiz)
