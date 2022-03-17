@@ -1,10 +1,13 @@
 from django.contrib import admin
+from django.contrib.admin.options import InlineModelAdmin
+
 from .models import Quiz, Category, Question, Answer
 
 
-class AdminQuiz(admin.ModelAdmin):
+@admin.register(Quiz)
+class QuizAdmin(admin.ModelAdmin):
     """
-    Модель опросов для админа.
+    Модель опросов для вывода в админ панели.
     """
 
     list_display = ('id', 'quiz_name', 'created_at')
@@ -13,9 +16,10 @@ class AdminQuiz(admin.ModelAdmin):
     list_filter = ('created_at', )
 
 
-class AdminCategory(admin.ModelAdmin):
+@admin.register(Category)
+class CategoryAdmin(admin.ModelAdmin):
     """
-    Модель категорий для админа.
+    Модель категорий для вывода в админ панели.
     """
 
     list_display = ('id', 'category_name', 'quiz_id', 'created_at')
@@ -24,29 +28,32 @@ class AdminCategory(admin.ModelAdmin):
     list_filter = ('quiz_id', 'created_at')
 
 
-class AdminQuestion(admin.ModelAdmin):
+class AnswerInline(admin.StackedInline):
+    model = Answer
+    min_num = 4
+    extra = 0
+
+
+@admin.register(Question)
+class QuestionAdmin(admin.ModelAdmin):
     """
-    Модель вопросов для админа.
+    Модель вопросов для вывода в админ панели.
     """
 
+    inlines = [AnswerInline]
     list_display = ('id', 'question', 'quiz_id', 'category_id', 'created_at')
     list_display_links = ('id', 'question')
     search_fields = ('quiz_id', 'category_id')
     list_filter = ('quiz_id', 'category_id', 'created_at')
 
 
-class AdminAnswer(admin.ModelAdmin):
+@admin.register(Answer)
+class AnswerAdmin(admin.ModelAdmin):
     """
-    Модель ответов для админа.
+    Модель ответов для вывода в админ панели.
     """
 
     list_display = ('id', 'answer', 'is_correct', 'question_id', 'created_at')
     list_display_links = ('id', 'answer')
     search_fields = ('answer', 'question_id')
     list_filter = ('is_correct', 'question_id', 'created_at')
-
-
-admin.site.register(Quiz, AdminQuiz)
-admin.site.register(Category, AdminCategory)
-admin.site.register(Question, AdminQuestion)
-admin.site.register(Answer, AdminAnswer)
