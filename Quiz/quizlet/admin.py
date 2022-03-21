@@ -2,28 +2,28 @@ from django.contrib import admin
 from .models import Quiz, Category, Question, Answer
 
 
-@admin.register(Quiz)
-class QuizAdmin(admin.ModelAdmin):
-    """
-    Модель опросов для вывода в админ панели.
-    """
-
-    list_display = ('id', 'quiz_name', 'created_at')
-    list_display_links = ('id', 'quiz_name')
-    search_fields = ('quiz_name',)
-    list_filter = ('created_at', )
-
-
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
     """
     Модель категорий для вывода в админ панели.
     """
 
-    list_display = ('id', 'category_name', 'quiz_id', 'created_at')
+    list_display = ('id', 'category_name', 'created_at')
     list_display_links = ('id', 'category_name')
-    search_fields = ('category_name', 'quiz_id')
-    list_filter = ('quiz_id', 'created_at')
+    search_fields = ('category_name',)
+    list_filter = ('created_at',)
+
+
+@admin.register(Quiz)
+class QuizAdmin(admin.ModelAdmin):
+    """
+    Модель опросов для вывода в админ панели.
+    """
+
+    list_display = ('id', 'quiz_name', 'category_id', 'created_at')
+    list_display_links = ('id', 'quiz_name')
+    search_fields = ('quiz_name',)
+    list_filter = ('created_at', 'category_id')
 
 
 class AnswerInline(admin.StackedInline):
@@ -39,10 +39,10 @@ class QuestionAdmin(admin.ModelAdmin):
     """
 
     inlines = [AnswerInline]
-    list_display = ('id', 'question', 'quiz_id', 'category_id', 'created_at')
+    list_display = ('id', 'question', 'quiz_id', 'created_at')
     list_display_links = ('id', 'question')
-    search_fields = ('quiz_id', 'category_id')
-    list_filter = ('quiz_id', 'category_id', 'created_at')
+    search_fields = ('quiz_id',)
+    list_filter = ('quiz_id', 'created_at')
 
 
 @admin.register(Answer)

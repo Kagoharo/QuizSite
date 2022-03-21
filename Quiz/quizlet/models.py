@@ -14,12 +14,28 @@ class AbstractQuizPattern(models.Model):
         ordering = ('created_at',)
 
 
+class Category(AbstractQuizPattern):
+    """
+    Модель категории вопросов.
+    """
+
+    category_name = models.CharField(verbose_name='Название категории', max_length=150)
+
+    class Meta(AbstractQuizPattern.Meta):
+        verbose_name = 'Категория'
+        verbose_name_plural = 'Категории'
+
+    def __str__(self) -> str:
+        return self.category_name
+
+
 class Quiz(AbstractQuizPattern):
     """
     Модель опросов.
     """
 
     quiz_name = models.CharField(verbose_name='Название опроса', max_length=150)
+    category = models.ForeignKey(Category, verbose_name='ID категории', related_name='category_quizzes', default='1', on_delete=models.CASCADE)
 
     class Meta(AbstractQuizPattern.Meta):
         verbose_name = 'Опрос'
@@ -35,30 +51,12 @@ class Quiz(AbstractQuizPattern):
         return self.quiz_questions.all()
 
 
-
-class Category(AbstractQuizPattern):
-    """
-    Модель категории вопросов.
-    """
-
-    category_name = models.CharField(verbose_name='Название категории', max_length=150)
-    quiz = models.ForeignKey(Quiz, verbose_name='ID опроса', related_name='quiz_categories', on_delete=models.CASCADE)
-
-    class Meta(AbstractQuizPattern.Meta):
-        verbose_name = 'Категория'
-        verbose_name_plural = 'Категории'
-
-    def __str__(self) -> str:
-        return self.category_name
-
-
 class Question(AbstractQuizPattern):
     """
     Модель вопросов.
     """
 
-    quiz = models.ForeignKey(Quiz, verbose_name='ID опроса', related_name='quiz_questions', on_delete=models.CASCADE)
-    category = models.ForeignKey(Category, verbose_name='ID категории', related_name='categories', on_delete=models.CASCADE)
+    quiz = models.ForeignKey(Quiz, verbose_name='ID опроса', related_name='quiz_questions', default=1, on_delete=models.CASCADE)
     question = models.CharField(verbose_name='Вопрос', max_length=150)
     marks = models.IntegerField(verbose_name='Отметка', default=5)
 
