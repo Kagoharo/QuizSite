@@ -79,7 +79,7 @@ class Answer(AbstractQuizPattern):
     Модель ответов.
     """
 
-    question = models.ForeignKey(Question, verbose_name='ID вопроса', related_name='question_answers', on_delete=models.CASCADE)
+    question = models.ForeignKey(Question, verbose_name='ID вопроса', related_name='question_answers', default='1', on_delete=models.CASCADE)
     answer = models.CharField(verbose_name='Ответ', max_length=150)
     is_correct = models.BooleanField(verbose_name='Правильность', default=False)
 
