@@ -4,7 +4,7 @@ from django.db import migrations
 
 def quiz_namer(apps, schema_editor):
     quiz = apps.get_model('quizlet', 'Quiz')
-    names = ["Мемы", "Боги", "Оружие", "Биология", "Наука", "Актеры"]
+    names = ["НеМемы", ]
     quiz.objects.bulk_create([(quiz(quiz_name=name)) for name in names])
 
 
@@ -15,5 +15,5 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.RunPython(quiz_namer),
+        migrations.RunPython(quiz_namer, migrations.RunPython.noop),
     ]

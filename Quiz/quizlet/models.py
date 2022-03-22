@@ -35,7 +35,7 @@ class Quiz(AbstractQuizPattern):
     """
 
     quiz_name = models.CharField(verbose_name='Название опроса', max_length=150)
-    category = models.ForeignKey(Category, verbose_name='ID категории', related_name='category_quizzes', default='1', on_delete=models.CASCADE)
+    category = models.ForeignKey(Category, verbose_name='ID категории', related_name='category_quizzes', default=1, on_delete=models.CASCADE)
 
     class Meta(AbstractQuizPattern.Meta):
         verbose_name = 'Опрос'
@@ -79,7 +79,7 @@ class Answer(AbstractQuizPattern):
     Модель ответов.
     """
 
-    question = models.ForeignKey(Question, verbose_name='ID вопроса', related_name='question_answers', default='1', on_delete=models.CASCADE)
+    question = models.ForeignKey(Question, verbose_name='ID вопроса', related_name='question_answers', default =1, on_delete=models.CASCADE)
     answer = models.CharField(verbose_name='Ответ', max_length=150)
     is_correct = models.BooleanField(verbose_name='Правильность', default=False)
 
