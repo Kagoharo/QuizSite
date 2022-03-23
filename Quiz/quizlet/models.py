@@ -1,4 +1,6 @@
 from django.db import models
+from django.db.models import Case, When, Count, TextField, Subquery, OuterRef, Q
+from django.db.models.functions import Coalesce
 
 
 class AbstractQuizPattern(models.Model):
@@ -12,6 +14,43 @@ class AbstractQuizPattern(models.Model):
     class Meta:
         abstract = True
         ordering = ('created_at',)
+
+
+class QuizManager(models.Manager):
+    """
+    Кастомный менеджер для опросов.
+    """
+
+    def category_name_annotation(self):
+        """
+        Аннотация для названия категории.
+        """
+        return self.annotate(category_name=(Case(When(category__id=True, then="category__category_name")))).order_by('id')
+
+    def number_of_questions(self):
+        """
+        Аннотация для количества вопросов.
+        """
+        return self.annotate(count_questions=Count('quiz_questions__question')).order_by('id')
+
+    def correct_answer_text(self):
+        """
+        Аннотация для правильного ответа.
+        """
+        return self.filter(quiz_answers__is_correct=True).annotate(correct_answer=Case(When(quiz_answers__is_correct=True, then="quiz_answers__answer")))
+
+
+class QuestionManager(models.Manager):
+    """
+    Кастомный менеджер для вопросов.
+    """
+
+    def is_many_answers(self):
+        """
+        Аннотация для количества ответов к вопросу, много ли их.
+        """
+        return self.annotate(counter=Count('question_answers__answer'), meme=Case(When(counter__gte=3, then=True), default=False)).order_by('id')
+
 
 
 class Category(AbstractQuizPattern):
@@ -36,6 +75,7 @@ class Quiz(AbstractQuizPattern):
 
     quiz_name = models.CharField(verbose_name='Название опроса', max_length=150)
     category = models.ForeignKey(Category, verbose_name='ID категории', related_name='category_quizzes', default=1, on_delete=models.CASCADE)
+    objects = QuizManager()
 
     class Meta(AbstractQuizPattern.Meta):
         verbose_name = 'Опрос'
@@ -51,6 +91,14 @@ class Quiz(AbstractQuizPattern):
         return self.quiz_questions.all()
 
 
+class QuizAnnotation(models.Model):
+    """
+    Модель опроса с аннотацией.
+    """
+
+    quiz = models.ForeignKey(Quiz, related_name='quiz_annotation', verbose_name='Аннотация опроса', on_delete=models.CASCADE)
+
+
 class Question(AbstractQuizPattern):
     """
     Модель вопросов.
@@ -59,6 +107,8 @@ class Question(AbstractQuizPattern):
     quiz = models.ForeignKey(Quiz, verbose_name='ID опроса', related_name='quiz_questions', default=1, on_delete=models.CASCADE)
     question = models.CharField(verbose_name='Вопрос', max_length=150)
     marks = models.IntegerField(verbose_name='Отметка', default=5)
+
+    objects = QuestionManager()
 
     class Meta(AbstractQuizPattern.Meta):
         verbose_name = 'Вопрос'
@@ -74,12 +124,21 @@ class Question(AbstractQuizPattern):
         return self.question_answers.all()
 
 
+class QuestionAnnotation(models.Model):
+    """
+    Модель вопроса с аннотацией.
+    """
+
+    question = models.ForeignKey(Question, related_name='question_annotation', verbose_name='Аннотация вопроса', on_delete=models.CASCADE)
+
+
 class Answer(AbstractQuizPattern):
     """
     Модель ответов.
     """
 
-    question = models.ForeignKey(Question, verbose_name='ID вопроса', related_name='question_answers', default =1, on_delete=models.CASCADE)
+    question = models.ForeignKey(Question, verbose_name='ID вопроса', related_name='question_answers', default=1, on_delete=models.CASCADE)
+    quiz = models.ForeignKey(Quiz, default=1, related_name='quiz_answers', on_delete=models.CASCADE)
     answer = models.CharField(verbose_name='Ответ', max_length=150)
     is_correct = models.BooleanField(verbose_name='Правильность', default=False)
 

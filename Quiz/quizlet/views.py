@@ -8,7 +8,7 @@ class QuizListView(ListView):
     Вид списка опросов.
     """
 
-    model = Quiz
+    model = Category
     template_name = 'quiz_list.html'
     context_object_name = 'quizzes'
     paginate_by = 100
@@ -19,7 +19,7 @@ class CategoryListView(ListView):
     Вид списка категорий.
     """
 
-    model = Category
+    model = Quiz
     template_name = 'category_list.html'
     context_object_name = 'categories'
     paginate_by = 100
