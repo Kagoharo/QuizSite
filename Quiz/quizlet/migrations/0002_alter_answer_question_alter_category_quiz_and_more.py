@@ -14,21 +14,21 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='answer',
             name='question',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='question_answers', to='quizlet.question', verbose_name='ID вопроса'),
+            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='question_answers', to='quizlet.question', default=1, verbose_name='ID вопроса'),
         ),
         migrations.AlterField(
             model_name='category',
             name='quiz',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='quiz_categories', to='quizlet.quiz', verbose_name='ID опроса'),
+            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='quiz_categories', to='quizlet.quiz', default=1, verbose_name='ID опроса'),
         ),
         migrations.AlterField(
             model_name='question',
             name='category',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='categories', to='quizlet.category', verbose_name='ID категории'),
+            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='categories', to='quizlet.category', default=1, verbose_name='ID категории'),
         ),
         migrations.AlterField(
             model_name='question',
             name='quiz',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='quiz_questions', to='quizlet.quiz', verbose_name='ID опроса'),
+            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='quiz_questions', to='quizlet.quiz', default=1, verbose_name='ID опроса'),
         ),
     ]
