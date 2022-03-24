@@ -1,5 +1,5 @@
 from django.db import models
-from django.db.models import Case, When, Count, Subquery, OuterRef, Q
+from django.db.models import Case, When, Count, F
 
 
 class AbstractQuizPattern(models.Model):
@@ -24,8 +24,7 @@ class QuizManager(models.Manager):
         """
         Аннотация для названия категории.
         """
-        categories = Category.objects.filter(category_quizzes=OuterRef('pk')).order_by('created_at')
-        return self.annotate(category_name=Subquery(categories.values('category_name')[:1]))
+        return self.annotate(category_name_of_quiz=F('category__category_name'))
 
     def count_questions(self):
         """
@@ -37,7 +36,7 @@ class QuizManager(models.Manager):
         """
         Аннотация для правильного ответа.
         """
-        return self.filter(quiz_answers__is_correct=True).annotate(correct_answer=Case(When(quiz_answers__is_correct=True, then="quiz_answers__answer")))
+        return self.filter(quiz_answers__is_correct=True).annotate(correct_answer=F("quiz_answers__answer"))
 
 
 class QuestionManager(models.Manager):
@@ -50,7 +49,6 @@ class QuestionManager(models.Manager):
         Аннотация для количества ответов к вопросу, много ли их.
         """
         return self.annotate(counter=Count('question_answers__answer'), meme=Case(When(counter__gte=3, then=True), default=False))
-
 
 
 class Category(AbstractQuizPattern):
