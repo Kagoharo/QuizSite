@@ -1,6 +1,5 @@
 from django.db import models
-from django.db.models import Case, When, Count, TextField, Subquery, OuterRef, Q
-from django.db.models.functions import Coalesce
+from django.db.models import Case, When, Count, Subquery, OuterRef, Q
 
 
 class AbstractQuizPattern(models.Model):
@@ -25,13 +24,14 @@ class QuizManager(models.Manager):
         """
         Аннотация для названия категории.
         """
-        return self.annotate(category_name=(Case(When(category__id=True, then="category__category_name")))).order_by('id')
+        categories = Category.objects.filter(category_quizzes=OuterRef('pk')).order_by('created_at')
+        return self.annotate(category_name=Subquery(categories.values('category_name')[:1]))
 
-    def number_of_questions(self):
+    def count_questions(self):
         """
         Аннотация для количества вопросов.
         """
-        return self.annotate(count_questions=Count('quiz_questions__question')).order_by('id')
+        return self.annotate(count_questions=Count('quiz_questions'))
 
     def correct_answer_text(self):
         """
@@ -49,7 +49,7 @@ class QuestionManager(models.Manager):
         """
         Аннотация для количества ответов к вопросу, много ли их.
         """
-        return self.annotate(counter=Count('question_answers__answer'), meme=Case(When(counter__gte=3, then=True), default=False)).order_by('id')
+        return self.annotate(counter=Count('question_answers__answer'), meme=Case(When(counter__gte=3, then=True), default=False))
 
 
 
