@@ -48,7 +48,7 @@ class QuestionManager(models.Manager):
         """
         Аннотация для количества ответов к вопросу, много ли их.
         """
-        return self.annotate(counter=Count('question_answers__answer'), meme=Case(When(counter__gte=3, then=True), default=False))
+        return self.annotate(counter=Count('question_answers__answer'), many_answers=Case(When(counter__gte=3, then=True), default=False))
 
 
 class Category(AbstractQuizPattern):
