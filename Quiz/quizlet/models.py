@@ -1,6 +1,7 @@
 from django.db import models
 from .managers import QuestionManager, QuizManager
 
+
 class AbstractQuizPattern(models.Model):
     """
     Общий шаблон для всех моделей в models.py.
