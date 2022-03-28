@@ -1,5 +1,5 @@
 from django.db import models
-from django.db.models import Case, When, Count, F
+from django.db.models import Case, When, Count, F, Value
 
 
 class QuizManager(models.QuerySet):
@@ -23,7 +23,7 @@ class QuizManager(models.QuerySet):
         """
         Аннотация для правильного ответа.
         """
-        return self.filter(quiz_answers__is_correct=True).annotate(correct_answer=F("quiz_answers__answer"))
+        return self.annotate(correct_answer=(Case(When(quiz_answers__is_correct='True', then=Value('quiz_answers__answer'))))).value_list('quiz_answers__answer', 'quiz_answers__is_correct')
 
 
 class QuestionManager(models.QuerySet):
@@ -31,7 +31,7 @@ class QuestionManager(models.QuerySet):
     Кастомный менеджер для вопросов.
     """
 
-    def is_many_answers(self):
+    def has_many_answers(self):
         """
         Аннотация для количества ответов к вопросу, много ли их.
         """

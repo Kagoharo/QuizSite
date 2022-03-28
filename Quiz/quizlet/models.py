@@ -1,5 +1,5 @@
 from django.db import models
-from Managers import QuestionManager, QuizManager
+from .managers import QuestionManager, QuizManager
 
 class AbstractQuizPattern(models.Model):
     """
