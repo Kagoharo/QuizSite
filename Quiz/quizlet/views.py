@@ -23,6 +23,13 @@ class QuizListView(ListView):
     template_name = 'quiz_list.html'
     context_object_name = 'quizzes'
     paginate_by = 5
+    pk_url_kwarg = "pk"
+
+    def get_context_data(self, **kwargs):
+        context = super(QuizListView, self).get_context_data(**kwargs)
+        pk = self.kwargs.get(self.pk_url_kwarg)
+        context['categories'] = Category.objects.filter(pk=pk)
+        return context
 
 
 class QuestionListView(ListView):
@@ -34,9 +41,11 @@ class QuestionListView(ListView):
     template_name = 'question_list.html'
     context_object_name = 'questions'
     paginate_by = 5
+    pk_url_kwarg = "pk"
 
     def get_context_data(self, **kwargs):
         context = super(QuestionListView, self).get_context_data(**kwargs)
+        pk = self.kwargs.get(self.pk_url_kwarg)
+        context['quizzes'] = Quiz.objects.filter(pk=pk)
         context['answers'] = Answer.objects.all()
         return context
-
