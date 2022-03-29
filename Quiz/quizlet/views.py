@@ -1,4 +1,3 @@
-from django.views.generic import DetailView
 from django.views.generic.list import ListView
 from .models import Quiz, Category, Question, Answer
 
@@ -24,13 +23,12 @@ class QuizListView(ListView):
     context_object_name = 'quizzes'
     paginate_by = 5
     pk_url_kwarg = "pk"
-    
+
     def get_context_data(self, **kwargs):
         context = super(QuizListView, self).get_context_data(**kwargs)
         pk = self.kwargs.get(self.pk_url_kwarg)
-        context['categories'] = Category.objects.filter(pk=pk)
+        context['quizzes'] = Quiz.objects.filter(category_id=pk)
         return context
-
 
 
 class QuestionListView(ListView):
@@ -43,11 +41,11 @@ class QuestionListView(ListView):
     context_object_name = 'questions'
     paginate_by = 5
     pk_url_kwarg = "pk"
-    
+
     def get_context_data(self, **kwargs):
         context = super(QuestionListView, self).get_context_data(**kwargs)
         pk = self.kwargs.get(self.pk_url_kwarg)
-        context['quizzes'] = Quiz.objects.filter(pk=pk)
-        context['answers'] = Answer.objects.all()
+        context['questions'] = Question.objects.filter(quiz_id=pk)
+        context['answers'] = Answer.objects.filter(quiz_id=pk)
         return context
 
