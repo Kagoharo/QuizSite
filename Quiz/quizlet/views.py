@@ -45,5 +45,4 @@ class QuestionDetailView(DetailView):
         context = super(QuestionDetailView, self).get_context_data(**kwargs)
         pk = self.kwargs.get(self.pk_url_kwarg)
         context['questions'] = Question.objects.filter(quiz_id=pk)
-        context['answers'] = Answer.objects.filter(quiz_id=pk)
         return context
