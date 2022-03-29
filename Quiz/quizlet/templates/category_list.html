@@ -2,22 +2,15 @@
 <html lang="en">
 <html>
     <head>
-        <title>Quizzes</title>
+        <title>Категории</title>
     </head>
     <body>
         <div>
-            {% for quiz in quizzes %}
-            {% for question in questions %}
-            {% if question.quiz_id == quiz.id %}
-                <b><p>Вопрос: {{question}}</p></b>
-                <p>Ответы:</p>
-                {% for answer in answers %}
-                    {% if answer.question_id == question.id %}
-                        <p>{{answer}}</p>
-                    {% endif %}
-                {% endfor %}
-            {% endif %}
-            {% endfor %}
+            <h1>Выбери категорию</h1>
+        </div>
+        <div>
+            {% for category in categories %}
+                <p><a href="{% url 'quiz_list' category.id%}">{{category}}</a></p>
             {% endfor %}
         </div>
         <div class="pagination">
@@ -38,4 +31,3 @@
             </span>
         </div>
     </body>
-</html>
