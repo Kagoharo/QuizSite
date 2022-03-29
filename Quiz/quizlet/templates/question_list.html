@@ -6,18 +6,14 @@
     </head>
     <body>
         <div>
-            {% for quiz in quizzes %}
             {% for question in questions %}
-            {% if question.quiz_id == quiz.id %}
                 <b><p>Вопрос: {{question}}</p></b>
                 <p>Ответы:</p>
                 {% for answer in answers %}
-                    {% if answer.question_id == question.id %}
+                {% if question.id == answer.question_id %}
                         <p>{{answer}}</p>
-                    {% endif %}
+                {% endif %}
                 {% endfor %}
-            {% endif %}
-            {% endfor %}
             {% endfor %}
         </div>
         <div class="pagination">
