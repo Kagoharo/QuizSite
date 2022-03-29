@@ -9,12 +9,8 @@
             <h1>Выбери тест</h1>
         </div>
         <div>
-            {% for category in categories%}
-                {% for quiz in quizzes %}
-                    {% if quiz.category_id == category.id %}
-                        <a href="{% url 'question_list' quiz.id%}">{{quiz}}</a>
-                    {% endif %}
-                {% endfor %}
+            {% for quiz in quizzes %}
+                <a href="{% url 'question_list' quiz.id%}">{{quiz}}</a>
             {% endfor %}
         </div>
         <div class="pagination">
