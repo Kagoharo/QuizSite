@@ -9,11 +9,7 @@
             {% for question in questions %}
                 <b><p>Вопрос: {{question}}</p></b>
                 <p>Ответы:</p>
-                {% for answer in answers %}
-                {% if question.id == answer.question_id %}
-                        <p>{{answer}}</p>
-                {% endif %}
-                {% endfor %}
+                        <p>{{question.question_answers.all}}</p>
             {% endfor %}
         </div>
         <div class="pagination">
