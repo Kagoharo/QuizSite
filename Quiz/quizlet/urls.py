@@ -1,6 +1,5 @@
 from django.urls import path
 from .views import QuizListView, CategoryListView, QuestionListView
-from .models import Quiz
 
 urlpatterns = [
     path('quizzes', CategoryListView.as_view(), name="category_list"),
