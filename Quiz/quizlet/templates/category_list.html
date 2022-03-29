@@ -2,15 +2,22 @@
 <html lang="en">
 <html>
     <head>
-        <title>Категории</title>
+        <title>Quizzes</title>
     </head>
     <body>
         <div>
-            <h1>Выбери категорию</h1>
-        </div>
-        <div>
-            {% for category in categories %}
-                <a href="{% url 'quiz_list' category.id %}">{{category}}</a>
+            {% for quiz in quizzes %}
+            {% for question in questions %}
+            {% if question.quiz_id == quiz.id %}
+                <b><p>Вопрос: {{question}}</p></b>
+                <p>Ответы:</p>
+                {% for answer in answers %}
+                    {% if answer.question_id == question.id %}
+                        <p>{{answer}}</p>
+                    {% endif %}
+                {% endfor %}
+            {% endif %}
+            {% endfor %}
             {% endfor %}
         </div>
         <div class="pagination">
