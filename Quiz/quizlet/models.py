@@ -53,14 +53,6 @@ class Quiz(AbstractQuizPattern):
         return self.quiz_questions.all()
 
 
-class QuizAnnotation(models.Model):
-    """
-    Модель опроса с аннотацией.
-    """
-
-    quiz = models.ForeignKey(Quiz, related_name='quiz_annotation', verbose_name='Аннотация опроса', on_delete=models.CASCADE)
-
-
 class Question(AbstractQuizPattern):
     """
     Модель вопросов.
@@ -84,14 +76,6 @@ class Question(AbstractQuizPattern):
         Получение вопросв связанных с опросом.
         """
         return self.question_answers.all()
-
-
-class QuestionAnnotation(models.Model):
-    """
-    Модель вопроса с аннотацией.
-    """
-
-    question = models.ForeignKey(Question, related_name='question_annotation', verbose_name='Аннотация вопроса', on_delete=models.CASCADE)
 
 
 class Answer(AbstractQuizPattern):

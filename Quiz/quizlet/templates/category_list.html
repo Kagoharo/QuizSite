@@ -1,34 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
-<html>
-    <head>
-        <title>Категории</title>
-    </head>
-    <body>
-        <div>
-            <h1>Выбери категорию</h1>
-        </div>
-        <div>
-            {% for category in categories %}
-                <p><a href="{% url 'quiz_list' category.id%}">{{category}}</a></p>
-            {% endfor %}
-        </div>
-        <div class="pagination">
-            <span class="step-links">
-                {% if page_obj.has_previous %}
-                    <a href="?page=1">&laquo; first</a>
-                    <a href="?page={{ page_obj.previous_page_number }}">previous</a>
-                {% endif %}
+{% extends "pattern_template_quizlet.html" %}
+{% block content %}
+    <div class='content'>
+        {% for category in categories %}
+            <p><a href="{% url 'quiz_list' category.id%}">{{category}}</a></p>
+        {% endfor %}
+    </div>
+{% endblock content %}
 
-             <span class="current">
-                Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
-             </span>
-
-                {% if page_obj.has_next %}
-                    <a href="?page={{ page_obj.next_page_number }}">next</a>
-                    <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
-                {% endif %}
-            </span>
-        </div>
-    </body>
-</html>

@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html lang="en">
+    {% block head %}
+	    {% block title %}<h1>{{title}}</h1>{% endblock %}
+    {% endblock head %}
+
+    {% block body %}
+	    {% block content %}
+	    {% endblock %}
+    <p>{% include "pagination_pattern_quizlet.html" %}</p>
+    {% endblock body %}
+</html>
