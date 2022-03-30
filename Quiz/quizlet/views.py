@@ -9,14 +9,17 @@ class ViewsMixin:
     """
 
     paginate_by = 5
-    title = None
 
-    def get_user_context(self, **kwargs):
-        context = kwargs
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        pk = self.kwargs.get(self.pk_url_kwarg)
+        questions = Question.objects.filter(quiz_id=pk)
+        context['questions'] = questions
+        quizzes = Quiz.objects.filter(category_id=pk)
+        context['quizzes'] = quizzes
+        context.update(title=self.get_title())
         return context
-
-    def get_title(self):
-        return self.title
 
 
 class CategoryListView(ListView):
@@ -24,10 +27,18 @@ class CategoryListView(ListView):
     Вид списка категорий.
     """
 
+    title = 'Категории опросов'
     model = Category
     template_name = 'category_list.html'
     context_object_name = 'categories'
-    extra_context = {"title": "Категории опросов"}
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context.update(title=self.get_title())
+        return context
+
+    def get_title(self):
+        return self.title
 
 
 class CategoryDetailView(ViewsMixin, DetailView):
@@ -39,16 +50,8 @@ class CategoryDetailView(ViewsMixin, DetailView):
     template_name = 'category.html'
     context_object_name = 'category'
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        pk = self.kwargs.get(self.pk_url_kwarg)
-        quizzes = Quiz.objects.filter(category_id=pk)
-        context['quizzes'] = quizzes
-        context.update(title=self.get_title())
-        return context
-
     def get_title(self):
-        return self.get_object().category_name
+        return self.get_object().category_name+' '+'опросы'
 
 
 class QuestionDetailView(ViewsMixin, DetailView):
@@ -60,13 +63,5 @@ class QuestionDetailView(ViewsMixin, DetailView):
     template_name = 'quiz.html'
     context_object_name = 'quiz'
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        pk = self.kwargs.get(self.pk_url_kwarg)
-        questions = Question.objects.filter(quiz_id=pk)
-        context['questions'] = questions
-        context.update(title=self.get_title())
-        return context
-
     def get_title(self):
-        return self.get_object().quiz_name
+        return self.get_object().quiz_name+' '+'тест'
