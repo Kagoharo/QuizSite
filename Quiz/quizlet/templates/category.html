@@ -3,7 +3,7 @@
 {% block content %}
         <div>
             {% for quiz in quizzes %}
-                <a href="{% url 'question_list' quiz.id%}">{{quiz}}</a>
+                <a href="{% url 'quiz' quiz.id%}">{{quiz}}</a>
             {% endfor %}
         </div>
 {% endblock content %}
