@@ -10,7 +10,6 @@ class ViewsMixin:
 
     paginate_by = 5
 
-
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         pk = self.kwargs.get(self.pk_url_kwarg)

@@ -23,7 +23,7 @@ class QuizManager(models.QuerySet):
         """
         Аннотация для правильного ответа.
         """
-        return self.annotate(correct_answer=(Case(When(quiz_answers__is_correct='True', then=Value('quiz_answers__answer'))))).value_list('quiz_answers__answer', 'quiz_answers__is_correct')
+        return self.annotate(correct_answer=(Case(When(quiz_questions__question_answers__is_correct='True', then=Value('quiz_questions__question_answers__is_correct'))))).value_list('quiz_questions__question_answers__answer', 'quiz_questions__question_answers__is_correct')
 
 
 class QuestionManager(models.QuerySet):
