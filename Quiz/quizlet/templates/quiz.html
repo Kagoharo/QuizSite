@@ -2,10 +2,12 @@
 {% extends "pattern_template_quizlet.html" %}
 {% block content %}
 <div>
-    {% for question in questions %}
+    {% for question in quiz.quiz_questions.all %}
         <b><p>Вопрос: {{question}}</p></b>
         <p>Ответы:</p>
-        <p>{{question.question_answers.all}}</p>
+        <p>{% for answer in question.question_answers.all %}</p>
+                {{answer}}
+            {% endfor %}
     {% endfor %}
 </div>
 {% endblock content %}

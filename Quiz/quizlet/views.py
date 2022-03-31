@@ -7,21 +7,16 @@ class ViewsMixin:
     """
     Миксин.
     """
-
+    title = None
     paginate_by = 5
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        pk = self.kwargs.get(self.pk_url_kwarg)
-        questions = Question.objects.filter(quiz_id=pk)
-        context['questions'] = questions
-        quizzes = Quiz.objects.filter(category_id=pk)
-        context['quizzes'] = quizzes
         context.update(title=self.get_title())
         return context
 
 
-class CategoryListView(ListView):
+class CategoryListView(ViewsMixin, ListView):
     """
     Вид списка категорий.
     """
@@ -31,18 +26,13 @@ class CategoryListView(ListView):
     template_name = 'category_list.html'
     context_object_name = 'categories'
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context.update(title=self.get_title())
-        return context
-
     def get_title(self):
         return self.title
 
 
 class CategoryDetailView(ViewsMixin, DetailView):
     """
-    Вид списка опросов.
+    Вид категории.
     """
 
     model = Category
@@ -53,9 +43,9 @@ class CategoryDetailView(ViewsMixin, DetailView):
         return self.get_object().category_name+' '+'опросы'
 
 
-class QuestionDetailView(ViewsMixin, DetailView):
+class QuizDetailView(ViewsMixin, DetailView):
     """
-    Вид списка вопросов.
+    Вид опроса.
     """
 
     model = Quiz

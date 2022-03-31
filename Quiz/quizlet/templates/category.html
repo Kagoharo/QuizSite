@@ -2,7 +2,7 @@
 {% extends "pattern_template_quizlet.html" %}
 {% block content %}
         <div>
-            {% for quiz in quizzes %}
+            {% for quiz in category.category_quizzes.all %}
                 <a href="{% url 'quiz' quiz.id%}">{{quiz}}</a>
             {% endfor %}
         </div>
