@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+{% extends "base.html" %}
+
+{% block content %}
+
+{% if not created %}
+    <h1> Создание категории</h1>
+    <form method="POST">
+        {% csrf_token %}
+        {{form.as_p}}
+        <button type="submit">Создать категорию</button>
+    </form>
+{% endif %}
+
+{% endblock content %}

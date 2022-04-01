@@ -1,14 +1,24 @@
 from django import forms
+from django.forms import ModelForm
+from .models import Category, Quiz
 
 
-class CategoryForm(forms.Form):
+class CategoryForm(ModelForm):
     """
     Форма для категории
     """
 
-    category_name = forms.CharField(min_length=10)
+    class Meta:
+        model = Category
+        fields = '__all__'
 
-    def clean_category_name(self):
-        cleaned_data = self.cleaned_data
-        category_name = cleaned_data.get('category_name')
-        return category_name
+
+class QuizForm(ModelForm):
+    """
+    Форма для опроса.
+    """
+
+    class Meta:
+        model = Quiz
+        fields = '__all__'
+

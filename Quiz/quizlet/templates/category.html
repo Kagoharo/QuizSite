@@ -3,9 +3,12 @@
 {% block content %}
         <div>
             {% for quiz in category.category_quizzes.all %}
-                <a href="{% url 'quiz' quiz.id%}">{{quiz}}</a>
+                <p><a href="{% url 'questions' quiz.id%}">{{quiz}}</a><input type="button" value="Изменить" onclick= "location.href= '{% url 'quiz_update' quiz.id %}'"/></p>
             {% empty %}
                 <li>В эту категорию пока не добавлены опросы.</li>
             {% endfor %}
+        </div>
+        <div class="PostButton">
+            <input type="button" value="Создать опрос" onclick='location.href="./post"'>
         </div>
 {% endblock content %}
