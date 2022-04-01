@@ -4,6 +4,8 @@
         <div>
             {% for quiz in category.category_quizzes.all %}
                 <a href="{% url 'quiz' quiz.id%}">{{quiz}}</a>
+            {% empty %}
+                <li>В эту категорию пока не добавлены опросы.</li>
             {% endfor %}
         </div>
 {% endblock content %}

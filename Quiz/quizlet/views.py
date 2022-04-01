@@ -1,6 +1,8 @@
+from django.shortcuts import render, redirect
 from django.views.generic import DetailView
 from django.views.generic.list import ListView
 from .models import Quiz, Category
+from .forms import CategoryForm
 
 
 class ViewsMixin:
@@ -30,6 +32,25 @@ class CategoryListView(ViewsMixin, ListView):
     model = Category
     template_name = 'category_list.html'
     context_object_name = 'categories'
+
+
+def category_create_view(request):
+    """
+    Вид списка категорий.
+    """
+    form = CategoryForm()
+    context = {
+        "form": form
+    }
+    if request.method == "POST":
+        form = CategoryForm(request.POST)
+        context['form'] = form
+        if form.is_valid():
+            category_name = form.cleaned_data.get('category_name')
+            Category.objects.create(category_name=category_name)
+            context['created'] = True
+        return redirect('http://127.0.0.1:8000/quizzes')
+    return render(request, "post_category.html", context=context)
 
 
 class CategoryDetailView(ViewsMixin, DetailView):
