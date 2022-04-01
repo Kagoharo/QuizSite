@@ -3,7 +3,7 @@ from .forms import CategoryForm, QuizForm
 from .models import Category, Quiz
 
 
-def category_create(request):
+def category_create_view(request):
     """
     Вид добавления категории.
     """
@@ -19,7 +19,7 @@ def category_create(request):
     return render(request, "category_form.html", context=context)
 
 
-def category_update(request, pk):
+def category_update_view(request, pk):
     """
     Вид изменения категории.
     """
@@ -36,7 +36,7 @@ def category_update(request, pk):
     return render(request, "category_form.html", context=context)
 
 
-def quiz_create(request, pk):
+def quiz_create_view(request, pk):
     """
     Вид создания опроса.
     """
@@ -53,7 +53,7 @@ def quiz_create(request, pk):
     return render(request, "quiz_form.html", context=context)
 
 
-def quiz_update(request, pk):
+def quiz_update_view(request, pk):
     """
     Вид изменения опроса.
     """
