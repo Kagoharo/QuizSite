@@ -37,14 +37,12 @@ class CategoryDetailView(ViewsMixin, DetailView):
     Вид категории.
     """
 
-    title = " опросы"
-
     model = Category
     template_name = 'category.html'
     context_object_name = 'category'
 
     def get_title(self):
-        return self.get_object().category_name + self.title
+        return self.get_object().category_name + " опросы"
 
 
 class QuizDetailView(ViewsMixin, DetailView):
@@ -52,11 +50,9 @@ class QuizDetailView(ViewsMixin, DetailView):
     Вид опроса.
     """
 
-    title = " вопросы"
-
     model = Quiz
     template_name = 'quiz.html'
     context_object_name = 'quiz'
 
     def get_title(self):
-        return self.get_object().quiz_name + self.title
+        return self.get_object().quiz_name + " вопросы"

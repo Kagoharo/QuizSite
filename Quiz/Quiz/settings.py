@@ -61,7 +61,7 @@ ROOT_URLCONF = 'Quiz.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': ['../Quiz/Quiz/templates/'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -81,14 +81,7 @@ WSGI_APPLICATION = 'Quiz.wsgi.application'
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': env('DATABASE_NAME'),
-        'USER': env('DATABASE_USER'),
-        'PASSWORD': env('DATABASE_PASS'),
-        'HOST': env('DATABASE_HOST'),
-        'PORT': env('DATABASE_PORT'),
-    }
+    'default': env.db()
 }
 
 
