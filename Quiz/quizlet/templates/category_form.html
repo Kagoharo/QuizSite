@@ -3,28 +3,19 @@
 {% extends "base.html" %}
 
 {% block content %}
-
-{% if create == True %}
-
-        {% if not created %}
-            <h1> Создание категории</h1>
-            <form method="post">
-                {% csrf_token %}
-                {{form.as_p}}
-                <input type="submit" value="Создать категорию"/>
-            </form>
-        {% endif %}
-
-{% elif create == False %}
-
-        {% if not created %}
-            <h1> Изменение категории</h1>
-            <form method="post">
-                {% csrf_token %}
-                {{form.as_p}}
-                <input type="submit" value="Сохранить изменения"/>
-            </form>
-        {% endif %}
-
-{% endif %}
+    {% if create %}
+        <h1> Создание категории</h1>
+        <form method="post">
+            {% csrf_token %}
+            {{form.as_p}}
+            <input type="submit" value="Создать категорию"/>
+        </form>
+    {% else %}
+        <h1> Изменение категории</h1>
+        <form method="post">
+            {% csrf_token %}
+            {{form.as_p}}
+            <input type="submit" value="Сохранить изменения"/>
+        </form>
+    {% endif %}
 {% endblock content %}

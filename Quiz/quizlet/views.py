@@ -22,46 +22,44 @@ class ViewsMixin:
         return self.title
 
 
-class CategoryMethodsViewsMixin:
+class CategoryCreateUpdateMixin:
     """
     Миксин для изменения и создания категорий.
     """
-    create = None
+
+    create = True
 
     model = Category
     form_class = CategoryForm
+    template_name = 'category_form.html'
 
     def get_success_url(self):
         return reverse('category_list')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context.update(create=self.get_method())
+        context.update(create=self.create)
         return context
 
-    def get_method(self):
-        return self.create
 
-
-class QuizMethodsViewsMixin:
+class QuizCreateUpdateMixin:
     """
     Миксин для изменения и создания опросов.
     """
-    create = None
+
+    create = False
 
     model = Quiz
     form_class = QuizForm
+    template_name = 'quiz_form.html'
 
     def get_success_url(self):
         return reverse('quiz_list', kwargs={'pk': self.object.category_id})
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context.update(create=self.get_method())
+        context.update(create=self.create)
         return context
-
-    def get_method(self):
-        return self.create
 
 
 class CategoryListView(ViewsMixin, ListView):
@@ -76,22 +74,20 @@ class CategoryListView(ViewsMixin, ListView):
     context_object_name = 'categories'
 
 
-class CategoryCreateView(CategoryMethodsViewsMixin, CreateView):
+class CategoryCreateView(CategoryCreateUpdateMixin, CreateView):
     """
     Вид создания категории.
     """
 
     create = True
-    template_name = 'category_form.html'
 
 
-class CategoryUpdateView(CategoryMethodsViewsMixin, UpdateView):
+class CategoryUpdateView(CategoryCreateUpdateMixin, UpdateView):
     """
     Вид изменения категории.
     """
 
     create = False
-    template_name = 'category_form.html'
 
 
 class CategoryDetailView(ViewsMixin, DetailView):
@@ -107,22 +103,20 @@ class CategoryDetailView(ViewsMixin, DetailView):
         return self.get_object().category_name + " опросы"
 
 
-class QuizCreateView(QuizMethodsViewsMixin, CreateView):
+class QuizCreateView(QuizCreateUpdateMixin, CreateView):
     """
     Вид создания опроса.
     """
 
     create = True
-    template_name = 'quiz_form.html'
 
 
-class QuizUpdateView(QuizMethodsViewsMixin, UpdateView):
+class QuizUpdateView(QuizCreateUpdateMixin, UpdateView):
     """
     Вид изменения опроса.
     """
 
     create = False
-    template_name = 'quiz_form.html'
 
 
 class QuizDetailView(ViewsMixin, DetailView):
