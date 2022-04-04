@@ -22,6 +22,42 @@ class ViewsMixin:
         return self.title
 
 
+class CategoryMethodsViewsMixin:
+    """
+    Миксин для изменения и создания категорий.
+    """
+    create = None
+
+    def get_success_url(self):
+        return reverse('category_list')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context.update(create=self.get_method())
+        return context
+
+    def get_method(self):
+        return self.create
+
+
+class QuizMethodsViewsMixin:
+    """
+    Миксин для изменения и создания опросов.
+    """
+    create = None
+
+    def get_success_url(self):
+        return reverse('quiz_list', kwargs={'pk': self.object.category_id})
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context.update(create=self.get_method())
+        return context
+
+    def get_method(self):
+        return self.create
+
+
 class CategoryListView(ViewsMixin, ListView):
     """
     Вид списка категорий.
@@ -34,30 +70,28 @@ class CategoryListView(ViewsMixin, ListView):
     context_object_name = 'categories'
 
 
-class CategoryCreateView(CreateView):
+class CategoryCreateView(CategoryMethodsViewsMixin, CreateView):
     """
     Вид создания категории.
     """
 
+    create = True
+
     model = Category
     form_class = CategoryForm
-    template_name = 'category_create_form.html'
-
-    def get_success_url(self):
-        return reverse('category_list')
+    template_name = 'category_form.html'
 
 
-class CategoryUpdateView(UpdateView):
+class CategoryUpdateView(CategoryMethodsViewsMixin, UpdateView):
     """
     Вид изменения категории.
     """
 
+    create = False
+
     model = Category
     form_class = CategoryForm
-    template_name = 'category_update_form.html'
-
-    def get_success_url(self):
-        return reverse('category_list')
+    template_name = 'category_form.html'
 
 
 class CategoryDetailView(ViewsMixin, DetailView):
@@ -73,30 +107,28 @@ class CategoryDetailView(ViewsMixin, DetailView):
         return self.get_object().category_name + " опросы"
 
 
-class QuizCreateView(CreateView):
+class QuizCreateView(QuizMethodsViewsMixin, CreateView):
     """
     Вид создания опроса.
     """
 
+    create = True
+
     model = Quiz
     form_class = QuizForm
-    template_name = 'quiz_create_form.html'
-
-    def get_success_url(self):
-        return reverse('quiz_list', kwargs={'pk': self.object.category_id})
+    template_name = 'quiz_form.html'
 
 
-class QuizUpdateView(UpdateView):
+class QuizUpdateView(QuizMethodsViewsMixin, UpdateView):
     """
     Вид изменения опроса.
     """
 
+    create = False
+
     model = Quiz
     form_class = QuizForm
-    template_name = 'quiz_update_form.html'
-
-    def get_success_url(self):
-        return reverse('quiz_list', kwargs={'pk': self.object.category_id})
+    template_name = 'quiz_form.html'
 
 
 class QuizDetailView(ViewsMixin, DetailView):
