@@ -1,6 +1,7 @@
 from django.urls import path
 from .views import CategoryListView, QuizDetailView, CategoryDetailView, CategoryCreateView, CategoryUpdateView, QuizCreateView, QuizUpdateView
 
+
 urlpatterns = [
     path('quizzes/', CategoryListView.as_view(), name="category_list"),
     path('quizzes/post/', CategoryCreateView.as_view(), name="category_create"),

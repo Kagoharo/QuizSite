@@ -3,7 +3,7 @@
 {% block content %}
     <div class='content'>
         {% for category in categories %}
-            <p><a href="{% url 'quiz_list' category.id%}">{{category}}</a><input type="button" value="Изменить" onclick= "location.href= '{% url 'category_update' category.id %}'"/></p>
+            <p><a href="{% url 'quiz_list' category.id%}">{{category}}</a><a href="{% url 'category_update' category.id %}"><button>Изменить</button></a></p>
         {% endfor %}
     </div>
     <div class="PostButton">
