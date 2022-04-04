@@ -1,3 +1,4 @@
+from django.urls import reverse
 from django.views.generic import DetailView, CreateView, UpdateView
 from django.views.generic.list import ListView
 from .models import Quiz, Category
@@ -34,15 +35,29 @@ class CategoryListView(ViewsMixin, ListView):
 
 
 class CategoryCreateView(CreateView):
+    """
+    Вид создания категории.
+    """
+
     model = Category
     form_class = CategoryForm
     template_name = 'category_create_form.html'
 
+    def get_success_url(self):
+        return reverse('category_list')
+
 
 class CategoryUpdateView(UpdateView):
+    """
+    Вид изменения категории.
+    """
+
     model = Category
     form_class = CategoryForm
     template_name = 'category_update_form.html'
+
+    def get_success_url(self):
+        return reverse('category_list')
 
 
 class CategoryDetailView(ViewsMixin, DetailView):
@@ -51,7 +66,7 @@ class CategoryDetailView(ViewsMixin, DetailView):
     """
 
     model = Category
-    template_name = 'category.html'
+    template_name = 'category_detail.html'
     context_object_name = 'category'
 
     def get_title(self):
@@ -59,15 +74,29 @@ class CategoryDetailView(ViewsMixin, DetailView):
 
 
 class QuizCreateView(CreateView):
+    """
+    Вид создания опроса.
+    """
+
     model = Quiz
     form_class = QuizForm
     template_name = 'quiz_create_form.html'
 
+    def get_success_url(self):
+        return reverse('quiz_list', kwargs={'pk': self.object.category_id})
+
 
 class QuizUpdateView(UpdateView):
+    """
+    Вид изменения опроса.
+    """
+
     model = Quiz
     form_class = QuizForm
     template_name = 'quiz_update_form.html'
+
+    def get_success_url(self):
+        return reverse('quiz_list', kwargs={'pk': self.object.category_id})
 
 
 class QuizDetailView(ViewsMixin, DetailView):
