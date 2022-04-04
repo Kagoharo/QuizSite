@@ -4,11 +4,11 @@
 {% block content %}
 
 {% if not created %}
-    <h1> Создание категории</h1>
+    <h1>Изменение опроса</h1>
     <form method="POST">
         {% csrf_token %}
         {{form.as_p}}
-        <button type="submit">Создать категорию</button>
+        <button type="submit">Сохранить изменения</button>
     </form>
 {% endif %}
 

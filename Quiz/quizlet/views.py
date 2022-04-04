@@ -1,6 +1,7 @@
-from django.views.generic import DetailView
+from django.views.generic import DetailView, CreateView, UpdateView
 from django.views.generic.list import ListView
 from .models import Quiz, Category
+from .forms import CategoryForm, QuizForm
 
 
 class ViewsMixin:
@@ -32,6 +33,18 @@ class CategoryListView(ViewsMixin, ListView):
     context_object_name = 'categories'
 
 
+class CategoryCreateView(CreateView):
+    model = Category
+    form_class = CategoryForm
+    template_name = 'category_create_form.html'
+
+
+class CategoryUpdateView(UpdateView):
+    model = Category
+    form_class = CategoryForm
+    template_name = 'category_update_form.html'
+
+
 class CategoryDetailView(ViewsMixin, DetailView):
     """
     Вид категории.
@@ -43,6 +56,18 @@ class CategoryDetailView(ViewsMixin, DetailView):
 
     def get_title(self):
         return self.get_object().category_name + " опросы"
+
+
+class QuizCreateView(CreateView):
+    model = Quiz
+    form_class = QuizForm
+    template_name = 'quiz_create_form.html'
+
+
+class QuizUpdateView(UpdateView):
+    model = Quiz
+    form_class = QuizForm
+    template_name = 'quiz_update_form.html'
 
 
 class QuizDetailView(ViewsMixin, DetailView):
