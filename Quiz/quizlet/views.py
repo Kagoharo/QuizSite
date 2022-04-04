@@ -28,6 +28,9 @@ class CategoryMethodsViewsMixin:
     """
     create = None
 
+    model = Category
+    form_class = CategoryForm
+
     def get_success_url(self):
         return reverse('category_list')
 
@@ -45,6 +48,9 @@ class QuizMethodsViewsMixin:
     Миксин для изменения и создания опросов.
     """
     create = None
+
+    model = Quiz
+    form_class = QuizForm
 
     def get_success_url(self):
         return reverse('quiz_list', kwargs={'pk': self.object.category_id})
@@ -76,9 +82,6 @@ class CategoryCreateView(CategoryMethodsViewsMixin, CreateView):
     """
 
     create = True
-
-    model = Category
-    form_class = CategoryForm
     template_name = 'category_form.html'
 
 
@@ -88,9 +91,6 @@ class CategoryUpdateView(CategoryMethodsViewsMixin, UpdateView):
     """
 
     create = False
-
-    model = Category
-    form_class = CategoryForm
     template_name = 'category_form.html'
 
 
@@ -113,9 +113,6 @@ class QuizCreateView(QuizMethodsViewsMixin, CreateView):
     """
 
     create = True
-
-    model = Quiz
-    form_class = QuizForm
     template_name = 'quiz_form.html'
 
 
@@ -125,9 +122,6 @@ class QuizUpdateView(QuizMethodsViewsMixin, UpdateView):
     """
 
     create = False
-
-    model = Quiz
-    form_class = QuizForm
     template_name = 'quiz_form.html'
 
 
