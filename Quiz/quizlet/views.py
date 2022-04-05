@@ -22,12 +22,23 @@ class ViewsMixin:
         return self.title
 
 
-class CategoryCreateUpdateMixin:
+class MixinCreateUpdate:
     """
-    Миксин для изменения и создания категорий.
+    Миксин для миксинов изменения и создания.
     """
 
     create = True
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context.update(create=self.create)
+        return context
+
+
+class CategoryCreateUpdateMixin(MixinCreateUpdate):
+    """
+    Миксин для изменения и создания категорий.
+    """
 
     model = Category
     form_class = CategoryForm
@@ -36,18 +47,11 @@ class CategoryCreateUpdateMixin:
     def get_success_url(self):
         return reverse('category_list')
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context.update(create=self.create)
-        return context
 
-
-class QuizCreateUpdateMixin:
+class QuizCreateUpdateMixin(MixinCreateUpdate):
     """
     Миксин для изменения и создания опросов.
     """
-
-    create = False
 
     model = Quiz
     form_class = QuizForm
@@ -55,11 +59,6 @@ class QuizCreateUpdateMixin:
 
     def get_success_url(self):
         return reverse('quiz_list', kwargs={'pk': self.object.category_id})
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context.update(create=self.create)
-        return context
 
 
 class CategoryListView(ViewsMixin, ListView):
