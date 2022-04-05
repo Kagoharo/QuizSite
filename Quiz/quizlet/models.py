@@ -1,3 +1,4 @@
+from django.contrib.auth.models import User
 from django.db import models
 from .managers import QuestionManager, QuizManager
 
@@ -81,3 +82,18 @@ class Answer(AbstractQuizPattern):
 
     def __str__(self) -> str:
         return self.answer
+
+
+class UserAnswers(AbstractQuizPattern):
+    """
+    Модель ответов пользователя.
+    """
+
+    user = models.ForeignKey(User, verbose_name='ID пользователя', related_name='user_answers', on_delete=models.CASCADE)
+    quiz = models.ForeignKey(Quiz, verbose_name='ID опроса', related_name='user_quizzes', on_delete=models.CASCADE)
+    count_correct = models.IntegerField(verbose_name='Количество правильных ответов в тесте')
+    answered_correct = models.IntegerField(verbose_name='Количество правильных ответов')
+
+    class Meta(AbstractQuizPattern.Meta):
+        verbose_name = 'Ответ пользователя'
+        verbose_name_plural = 'Ответы пользователя'

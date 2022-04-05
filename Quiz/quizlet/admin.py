@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Quiz, Category, Question, Answer
+from .models import Quiz, Category, Question, Answer, UserAnswers
 
 
 @admin.register(Category)
@@ -55,3 +55,14 @@ class AnswerAdmin(admin.ModelAdmin):
     list_display_links = ('id', 'answer')
     search_fields = ('answer', 'question_id')
     list_filter = ('is_correct', 'question_id', 'created_at')
+
+
+@admin.register(UserAnswers)
+class UserAnswersAdmin(admin.ModelAdmin):
+    """
+    Модель ответов пользователей для админ панели.
+    """
+
+    list_display = ('user_id', 'quiz_id', 'count_correct', 'answered_correct')
+    list_filter = ('user_id', 'quiz_id', 'count_correct', 'answered_correct')
+    search_fields = ('user_id', 'quiz_id')

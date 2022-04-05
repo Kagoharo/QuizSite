@@ -22,7 +22,7 @@ class ViewsMixin:
         return self.title
 
 
-class MixinCreateUpdate:
+class CreateUpdateMixin:
     """
     Миксин для миксинов изменения и создания.
     """
@@ -35,7 +35,7 @@ class MixinCreateUpdate:
         return context
 
 
-class CategoryCreateUpdateMixin(MixinCreateUpdate):
+class CategoryCreateUpdateMixin(CreateUpdateMixin):
     """
     Миксин для изменения и создания категорий.
     """
@@ -48,7 +48,7 @@ class CategoryCreateUpdateMixin(MixinCreateUpdate):
         return reverse('category_list')
 
 
-class QuizCreateUpdateMixin(MixinCreateUpdate):
+class QuizCreateUpdateMixin(CreateUpdateMixin):
     """
     Миксин для изменения и создания опросов.
     """

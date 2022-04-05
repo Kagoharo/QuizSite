@@ -33,6 +33,7 @@ SECRET_KEY = env('SECRET_KEY')
 
 ALLOWED_HOSTS = []
 
+AUTH_USER = 'users.Users'
 
 # Application definition
 
@@ -44,6 +45,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'quizlet',
+    'users',
 ]
 
 MIDDLEWARE = [
@@ -61,7 +63,7 @@ ROOT_URLCONF = 'Quiz.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': ['../Quiz/Quiz/templates/'],
+        'DIRS': ['../Quiz/Quiz/templates/', '../Quiz/users/users_templates/'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
