@@ -99,7 +99,7 @@ class CategoryDetailView(ViewsMixin, DetailView):
     context_object_name = 'category'
 
     def get_title(self):
-        return self.get_object().category_name + " опросы"
+        return f'{self.get_object().category_name} опросы'
 
 
 class QuizCreateView(QuizCreateUpdateMixin, CreateView):
@@ -128,4 +128,4 @@ class QuizDetailView(ViewsMixin, DetailView):
     context_object_name = 'quiz'
 
     def get_title(self):
-        return self.get_object().quiz_name + " вопросы"
+        return f'{self.get_object().quiz_name} вопросы'

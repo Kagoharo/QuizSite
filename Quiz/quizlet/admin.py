@@ -63,6 +63,6 @@ class UserAnswersAdmin(admin.ModelAdmin):
     Модель ответов пользователей для админ панели.
     """
 
-    list_display = ('user_id', 'quiz_id', 'count_correct', 'answered_correct')
-    list_filter = ('user_id', 'quiz_id', 'count_correct', 'answered_correct')
-    search_fields = ('user_id', 'quiz_id')
+    list_display = ('quiz_id', 'count_correct', 'answered_correct')
+    list_filter = ('quiz_id', 'count_correct', 'answered_correct')
+    search_fields = ('quiz_id', )

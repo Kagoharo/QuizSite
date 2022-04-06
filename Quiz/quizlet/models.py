@@ -1,7 +1,6 @@
-from django.contrib.auth.models import User
+from django.conf import settings
 from django.db import models
 from .managers import QuestionManager, QuizManager
-#from Quiz.users.models import CustomUser
 
 
 class AbstractQuizPattern(models.Model):
@@ -90,8 +89,9 @@ class UserAnswers(AbstractQuizPattern):
     Модель ответов пользователя.
     """
 
-    user = models.ForeignKey(User, verbose_name='ID пользователя', related_name='user_answers', on_delete=models.CASCADE)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name='ID пользователя', related_name='user_answers', on_delete=models.CASCADE)
     quiz = models.ForeignKey(Quiz, verbose_name='ID опроса', related_name='user_quizzes', on_delete=models.CASCADE)
+    answer = models.ForeignKey(Answer, verbose_name = 'ID ответа', related_name = 'user_answers', on_delete=models.CASCADE)
     count_correct = models.IntegerField(verbose_name='Количество правильных ответов в тесте')
     answered_correct = models.IntegerField(verbose_name='Количество правильных ответов')
 

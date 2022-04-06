@@ -22,8 +22,10 @@ env = environ.Env(
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+ROOT_DIR = os.path.join(BASE_DIR, './Quiz')
+
 # Take environment variables from .env file
-environ.Env.read_env(os.path.join(BASE_DIR, './Quiz/.env'))
+environ.Env.read_env(os.path.join(ROOT_DIR, '.env'))
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env('DEBUG')
@@ -33,7 +35,7 @@ SECRET_KEY = env('SECRET_KEY')
 
 ALLOWED_HOSTS = []
 
-AUTH_USER = 'users.CustomUser'
+AUTH_USER_MODEL = 'users.CustomUser'
 
 # Application definition
 
@@ -63,7 +65,7 @@ ROOT_URLCONF = 'Quiz.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': ['../Quiz/Quiz/templates/', '../Quiz/users/users_templates/'],
+        'DIRS': ['../Quiz/Quiz/templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
