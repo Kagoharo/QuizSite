@@ -3,15 +3,15 @@ from django.forms import ModelForm
 from .models import CustomUser
 
 
-class UserForm(ModelForm):
-    """
-    Форма для категории
-    """
+#class UserForm(ModelForm):
+#    """
+#    Форма для категории
+#    """
+#
+#    class Meta:
+#        model = CustomUser
+#        fields = '__all__'
 
-    class Meta:
-        model = CustomUser
-        fields = '__all__'
 
-
-class LoginForm(AuthenticationForm):
-    pass
+#class LoginForm(AuthenticationForm):
+#    pass

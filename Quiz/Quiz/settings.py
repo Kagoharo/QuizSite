@@ -33,7 +33,7 @@ SECRET_KEY = env('SECRET_KEY')
 
 ALLOWED_HOSTS = []
 
-AUTH_USER = 'users.Users'
+AUTH_USER = 'users.CustomUser'
 
 # Application definition
 

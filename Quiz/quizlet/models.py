@@ -1,6 +1,7 @@
 from django.contrib.auth.models import User
 from django.db import models
 from .managers import QuestionManager, QuizManager
+#from Quiz.users.models import CustomUser
 
 
 class AbstractQuizPattern(models.Model):
