@@ -22,7 +22,8 @@ env = environ.Env(
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-ROOT_DIR = os.path.join(BASE_DIR, './Quiz')
+ROOT_DIR = os.path.join(BASE_DIR, 'Quiz/')
+USER_DIR = os.path.join(BASE_DIR, 'users/')
 
 # Take environment variables from .env file
 environ.Env.read_env(os.path.join(ROOT_DIR, '.env'))
@@ -65,7 +66,7 @@ ROOT_URLCONF = 'Quiz.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': ['../Quiz/Quiz/templates'],
+        'DIRS': [os.path.join(ROOT_DIR, 'templates/'), os.path.join(USER_DIR, 'templates/')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
