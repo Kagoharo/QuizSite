@@ -2,15 +2,12 @@
 {% extends "base.html" %}
 {% block content %}
 <div>
-    {% for question in quiz.quiz_questions.all %}
-        <b><p>Вопрос: {{question}}</p></b>
-        <p>Ответы:</p>
-        <p>{% for answer in question.question_answers.all %}</p>
-                {{answer}}
-            {% empty %}
-                <li>В этот вопрос пока не добавлены ответы.</li>
-            {% endfor %}
-     {% empty %}
+    {% for form in formset %}
+        {{form.as_p}}
+        {% for form2 in formset2 %}
+            {{form2.as_p}}
+        {%endfor%}
+    {% empty %}
         <li>В этот опрос пока не добавлены вопросы.</li>
     {% endfor %}
 </div>

@@ -1,8 +1,8 @@
 from django.urls import reverse
 from django.views.generic import DetailView, CreateView, UpdateView
 from django.views.generic.list import ListView
-from .models import Quiz, Category
-from .forms import CategoryForm, QuizForm
+from .models import Quiz, Category, Answer, Question
+from .forms import CategoryForm, QuizForm, QuizFormSet
 
 
 class ViewsMixin:
@@ -129,3 +129,9 @@ class QuizDetailView(ViewsMixin, DetailView):
 
     def get_title(self):
         return f'{self.get_object().quiz_name} вопросы'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context.update(title = self.get_title())
+        context['formset'] = QuizFormSet(instance=self.object)
+        return context
