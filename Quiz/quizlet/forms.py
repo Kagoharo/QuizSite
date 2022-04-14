@@ -1,5 +1,5 @@
-from django.forms import ModelForm, inlineformset_factory
-from .models import Category, Quiz, Answer, Question
+from django.forms import ModelForm, inlineformset_factory, BaseInlineFormSet
+from .models import Category, Quiz, Answer, Question, UserAnswers
 
 
 class CategoryForm(ModelForm):
@@ -32,11 +32,6 @@ class QuestionForm(ModelForm):
         fields = '__all__'
 
 
-QuizFormSet = inlineformset_factory(
-    Quiz, Question, form = QuizForm,
-    fields = ['question'], extra = 0, can_delete = False)
-
-
 class AnswerForm(ModelForm):
     """
     Форма для ответов
@@ -45,3 +40,22 @@ class AnswerForm(ModelForm):
     class Meta:
         model = Answer
         fields = '__all__'
+
+
+class UserAnswersForm(ModelForm):
+    """
+    Форма для ответов пользователя
+    """
+
+    class Meta:
+        model = UserAnswers
+        fields = '__all__'
+
+
+class CustomUserAnswerInlineFormSet(BaseInlineFormSet):
+    pass
+
+
+UserAnswerFormSet = inlineformset_factory(
+    Answer, UserAnswers, form = UserAnswersForm, formset = CustomUserAnswerInlineFormSet,
+    fields = ['user', 'answer'], extra = 0, can_delete = False)

@@ -20,10 +20,10 @@ class QuizAdmin(admin.ModelAdmin):
     Модель опросов для вывода в админ панели.
     """
 
-    list_display = ('id', 'quiz_name', 'category_id', 'created_at')
+    list_display = ('id', 'quiz_name', 'category', 'created_at')
     list_display_links = ('id', 'quiz_name')
     search_fields = ('quiz_name',)
-    list_filter = ('created_at', 'category_id')
+    list_filter = ('created_at', 'category')
 
 
 class AnswerInline(admin.StackedInline):
@@ -39,10 +39,10 @@ class QuestionAdmin(admin.ModelAdmin):
     """
 
     inlines = [AnswerInline]
-    list_display = ('id', 'question', 'quiz_id', 'created_at')
+    list_display = ('id', 'question', 'quiz', 'created_at')
     list_display_links = ('id', 'question')
-    search_fields = ('quiz_id',)
-    list_filter = ('quiz_id', 'created_at')
+    search_fields = ('quiz',)
+    list_filter = ('quiz', 'created_at')
 
 
 @admin.register(Answer)
@@ -51,10 +51,10 @@ class AnswerAdmin(admin.ModelAdmin):
     Модель ответов для вывода в админ панели.
     """
 
-    list_display = ('id', 'answer', 'is_correct', 'question_id', 'created_at')
+    list_display = ('id', 'answer', 'is_correct', 'question', 'created_at')
     list_display_links = ('id', 'answer')
-    search_fields = ('answer', 'question_id')
-    list_filter = ('is_correct', 'question_id', 'created_at')
+    search_fields = ('answer', 'question')
+    list_filter = ('is_correct', 'question', 'created_at')
 
 
 @admin.register(UserAnswers)
@@ -63,6 +63,6 @@ class UserAnswersAdmin(admin.ModelAdmin):
     Модель ответов пользователей для админ панели.
     """
 
-    list_display = ('quiz_id', 'count_correct', 'answered_correct')
-    list_filter = ('quiz_id', 'count_correct', 'answered_correct')
-    search_fields = ('quiz_id', )
+    list_display = ('user', 'answer')
+    list_filter = ('answer',)
+    search_fields = ('answer',)

@@ -37,7 +37,7 @@ class Quiz(AbstractQuizPattern):
     """
 
     quiz_name = models.CharField(verbose_name='Название опроса', max_length=150)
-    category = models.ForeignKey(Category, verbose_name='ID категории', related_name='category_quizzes', on_delete=models.CASCADE)
+    category = models.ForeignKey(Category, verbose_name='Категория', related_name='category_quizzes', on_delete=models.CASCADE)
     objects = QuizManager()
 
     class Meta(AbstractQuizPattern.Meta):
@@ -53,7 +53,7 @@ class Question(AbstractQuizPattern):
     Модель вопросов.
     """
 
-    quiz = models.ForeignKey(Quiz, verbose_name='ID опроса', related_name='quiz_questions', on_delete=models.CASCADE)
+    quiz = models.ForeignKey(Quiz, verbose_name='Опрос', related_name='quiz_questions', on_delete=models.CASCADE)
     question = models.CharField(verbose_name='Вопрос', max_length=150)
     marks = models.IntegerField(verbose_name='Отметка', default=5)
 
@@ -72,7 +72,7 @@ class Answer(AbstractQuizPattern):
     Модель ответов.
     """
 
-    question = models.ForeignKey(Question, verbose_name='ID вопроса', related_name='question_answers', on_delete=models.CASCADE)
+    question = models.ForeignKey(Question, verbose_name='Вопрос', related_name='question_answers', on_delete=models.CASCADE)
     answer = models.CharField(verbose_name='Ответ', max_length=150)
     is_correct = models.BooleanField(verbose_name='Правильность', default=False)
 
@@ -89,11 +89,8 @@ class UserAnswers(AbstractQuizPattern):
     Модель ответов пользователя.
     """
 
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name='ID пользователя', related_name='user_answers', on_delete=models.CASCADE)
-    quiz = models.ForeignKey(Quiz, verbose_name='ID опроса', related_name='user_quizzes', on_delete=models.CASCADE)
-    answer = models.ForeignKey(Answer, verbose_name = 'ID ответа', related_name = 'user_answers', on_delete=models.CASCADE)
-    count_correct = models.IntegerField(verbose_name='Количество правильных ответов в тесте')
-    answered_correct = models.IntegerField(verbose_name='Количество правильных ответов')
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name='Пользователь', related_name='user_answers', on_delete=models.CASCADE)
+    answer = models.ForeignKey(Answer, verbose_name = 'Ответ', related_name = 'user_answers', default = 1, on_delete=models.CASCADE)
 
     class Meta(AbstractQuizPattern.Meta):
         verbose_name = 'Ответ пользователя'

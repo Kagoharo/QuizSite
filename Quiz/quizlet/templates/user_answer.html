@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+{% extends "base.html" %}
+{% block content %}
+<div>
+    {{ formset.management_form }}
+    {% for form in formset %}
+        {{form.as_p}}
+    {% empty %}
+        <li>В этот опрос пока не добавлены вопросы.</li>
+    {% endfor %}
+</div>
+{% endblock content %}
